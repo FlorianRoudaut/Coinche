@@ -3,3 +3,11 @@
 ################################################################################
 
 /.vs/Coinche/v16
+/.vs
+/Coinche-Common/bin/Debug/netcoreapp3.1
+/Coinche-Common/obj
+/Coinche.Common.Test/bin/Debug/netcoreapp3.1
+/Coinche.Common.Test/obj/Debug/netcoreapp3.1
+/Coinche.Common.Test/obj
+/Coinche.Common/bin/Debug/netcoreapp3.1
+/Coinche.Common/obj

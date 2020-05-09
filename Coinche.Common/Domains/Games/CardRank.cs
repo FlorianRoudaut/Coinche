@@ -58,5 +58,42 @@ namespace Coinche.Common.Domains.Games
             list.Add(ace);
             return list;
         }
+
+        public static CardRank GetRank(string letter)
+        {
+            if (letter == "7")
+            {
+                return new CardRank(7, "7", "Seven");
+            }
+            else if (letter == "8")
+            {
+                return new CardRank(8, "8", "Eight");
+            }
+            else if (letter == "9")
+            {
+                return new CardRank(9, "9", "Nine");
+            }
+            else if (letter == "10")
+            {
+                return new CardRank(10, "10", "Ten");
+            }
+            else if (letter == "J")
+            {
+                return new CardRank(11, "J", "Jack");
+            }
+            else if (letter == "Q")
+            {
+                return new CardRank(12, "Q", "Queen");
+            }
+            else if (letter == "K")
+            {
+                return new CardRank(13, "K", "King");
+            }
+            else if (letter == "A")
+            {
+                return new CardRank(14, "A", "Ace");
+            }
+            return null;
+        }
     }
 }

@@ -34,5 +34,28 @@ namespace Coinche.Common.Domains.Games
         {
             return Rank.GetHashCode() ^ Suit.GetHashCode();
         }
+
+        public bool IsHigherThan(Card otherCard)
+        {
+            if (otherCard.Rank.Id > Rank.Id) return false;
+            return true;
+        }
+
+        public bool IsSameSuit(CardSuit suit)
+        {
+            if (Suit.Equals(suit)) return true;
+            return false;
+        }
+
+        public bool IsSameSuit(Card otherCard)
+        {
+            if (Suit.Equals(otherCard.Suit)) return true;
+            return false;
+        }
+
+        public int GetRankId()
+        {
+            return Rank.Id;
+        }
     }
 }

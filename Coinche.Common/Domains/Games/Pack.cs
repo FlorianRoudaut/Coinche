@@ -24,6 +24,13 @@ namespace Coinche.Common.Domains.Games
             return Cards.Count;
         }
 
+        public Card Pop()
+        {
+            var kvp = Cards.First();
+            Cards.Remove(kvp.Key);
+            return kvp.Value;
+        }
+
         public static Pack BuildPiquetPack()
         {
             var pack = new Pack();

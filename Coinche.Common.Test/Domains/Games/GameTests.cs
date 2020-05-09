@@ -1,4 +1,6 @@
-﻿using Coinche.Common.Domains.Games;
+﻿using Coinche.Common.AI;
+using Coinche.Common.Domains.Games;
+using Coinche.Common.Test.Setup;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -8,26 +10,41 @@ namespace Coinche.Common.Test.Domains.Games
 {
     public class GameTests
     {
-        [Test]
-        public void AddPlayersTest()
+        private Game InitGame()
         {
             var game = new Game();
-            var players = new List<Player>();
-            var player1 = new Player("One");
-            players.Add(player1);
-            var player2 = new Player("Two");
-            players.Add(player2);
-            var player3 = new Player("Three");
-            players.Add(player3);
-            var player4 = new Player("Four");
-            players.Add(player4);
-
-            foreach (var player in players)
+            var players = PlayersSetup.BuildFourAIPlayers();
+            foreach(var player in players)
             {
                 game.AddPlayer(player);
             }
+            return game;
+        }
 
+        [Test]
+        public void AddPlayersTest()
+        {
+            var game = InitGame();
             Assert.AreEqual(4, game.GetPlayersCount());
+        }
+
+        [Test]
+        public void StartGameTest()
+        {
+            var game = InitGame();
+
+            game.Start();
+            Assert.AreEqual(1, game.GetCurrentRoundNumber());
+        }
+
+        [Test]
+        public void IsValidGameTest()
+        {
+            var game = new Game();
+            Assert.AreEqual(false, game.IsValidGame());
+
+            game = InitGame();
+            Assert.AreEqual(true, game.IsValidGame());
         }
     }
 }

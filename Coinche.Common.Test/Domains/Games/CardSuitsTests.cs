@@ -17,5 +17,12 @@ namespace Coinche.Common.Test.Domains.Games
             var allSuitsName = string.Join("|", allSuits.Select(t=>t.ToString()));
             Assert.AreEqual("♠|♥|♦|♣", allSuitsName);
         }
+
+        [Test]
+        public void GetSuitTest()
+        {
+            var rank = CardSuit.GetSuit(CardSuit.Heart);
+            Assert.IsNotNull(rank);
+        }
     }
 }

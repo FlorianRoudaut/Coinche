@@ -16,5 +16,15 @@ namespace Coinche.Common.Test.Domains.Games
             var allRanksName = string.Join("|", allRanks.Select(t => t.ToString()));
             Assert.AreEqual("7|8|9|10|J|Q|K|A", allRanksName);
         }
+
+        [Test]
+        public void GetRankTest()
+        {
+            var rank = CardRank.GetRank("A");
+            Assert.IsNotNull(rank);
+            Assert.AreEqual(14, rank.Id);
+            Assert.AreEqual("A", rank.Letter);
+            Assert.AreEqual("Ace", rank.Name);
+        }
     }
 }

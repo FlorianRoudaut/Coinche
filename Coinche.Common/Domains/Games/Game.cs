@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Coinche.Common.Rules;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,14 +7,22 @@ namespace Coinche.Common.Domains.Games
 {
     public class Game
     {
-        private List<Player> Players { get; set; }
+        private List<IPlayer> Players { get; set; }
+
+        private Round CurrentRound { get; set; }
 
         public Game()
         {
-            Players = new List<Player>();
+            Players = new List<IPlayer>();
+            CurrentRound = new Round();
         }
 
-        public void AddPlayer(Player player)
+        public bool IsValidGame()
+        {
+            return Players.Count == BelotteRules.PlayersNumber;
+        }
+
+        public void AddPlayer(IPlayer player)
         {
             Players.Add(player);
         }
@@ -21,6 +30,18 @@ namespace Coinche.Common.Domains.Games
         public int GetPlayersCount()
         {
             return Players.Count;
+        }
+
+        public int GetCurrentRoundNumber()
+        {
+            return CurrentRound.GetRoundNumber();
+        }
+
+        public void Start()
+        {
+            CurrentRound = new Round(Players, 1);
+            CurrentRound.ShuffleAndDeal();
+            CurrentRound.StartPlaying();
         }
     }
 }

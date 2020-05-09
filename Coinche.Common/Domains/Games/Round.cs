@@ -1,6 +1,7 @@
 ﻿using Coinche.Common.Rules;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Coinche.Common.Domains.Games
@@ -67,7 +68,42 @@ namespace Coinche.Common.Domains.Games
             for (int i = 0; i < BelotteRules.TrickNumber; i++)
             {
                 trick.Play(CardsHeldByPlayers);
+
+                var newPlayersOrder = OrderPlayersForNewTrick(Players, trick.GetTaker());
+                trick = new Trick(newPlayersOrder, Trump);
             }
+        }
+
+        public static List<IPlayer> OrderPlayersForNewTrick(List<IPlayer> players, IPlayer taker)
+        {
+            var copy = players.Select(t => t).ToList();
+            var newOrder = new List<IPlayer>();
+
+            var found = false;
+            foreach (var player in players)
+            {
+                if (found)
+                {
+                    newOrder.Add(player);
+                    copy.Remove(player);
+                }
+                else
+                {
+                    if (player.Equals(taker))
+                    {
+                        found = true;
+                        newOrder.Add(player);
+                        copy.Remove(player);
+                    }
+                    else continue;
+                }
+            }
+
+            foreach (var player in copy)
+            {
+                newOrder.Add(player);
+            }
+            return newOrder;
         }
     }
 }

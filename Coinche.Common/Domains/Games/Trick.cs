@@ -31,6 +31,7 @@ namespace Coinche.Common.Domains.Games
                 var playerCards = cardsByPlayers[player];
                 var playedCard = player.Play(playerCards);
                 PlayedCards[player] = playedCard;
+                cardsByPlayers[player].Remove(playedCard);
             }
             Taker = BelotteRules.ComputeTaker(Trump, PlayedCards);
         }

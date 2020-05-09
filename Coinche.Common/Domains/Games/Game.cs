@@ -41,7 +41,8 @@ namespace Coinche.Common.Domains.Games
         {
             CurrentRound = new Round(Players, 1);
             CurrentRound.ShuffleAndDeal();
-            CurrentRound.StartPlaying();
+            CurrentRound.Play();
+            CurrentRound.CountPlayersPoints();
         }
     }
 }

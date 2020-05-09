@@ -115,21 +115,21 @@ namespace Coinche.Common.Rules
             if(card.IsSameSuit(trump))
             {
                 if (rankId == 7 || rankId == 8) return 0;
-                if (rankId == 9) return 14;
-                if (rankId == 10) return 10;
-                if (rankId == 11) return 20;
-                if (rankId == 12) return 3;
-                if (rankId == 13) return 4;
-                if (rankId == 12) return 11;
+                else if (rankId == 9) return 14;
+                else if (rankId == 10) return 10;
+                else if (rankId == 11) return 20;
+                else if (rankId == 12) return 3;
+                else if (rankId == 13) return 4;
+                else if (rankId == 14) return 11;
             }
             else
             {
                 if (rankId == 7 || rankId == 8|| rankId == 9) return 0;
-                if (rankId == 10) return 10;
-                if (rankId == 11) return 2;
-                if (rankId == 12) return 3;
-                if (rankId == 13) return 4;
-                if (rankId == 12) return 11;
+                else if (rankId == 10) return 10;
+                else if (rankId == 11) return 2;
+                else if (rankId == 12) return 3;
+                else if (rankId == 13) return 4;
+                else if (rankId == 14) return 11;
             }
             return 0;
         }

@@ -14,6 +14,7 @@ namespace Coinche.Common.Domains.Games
         private CardSuit Trump { get; set; }
         private Dictionary<IPlayer, List<Card>> CardsHeldByPlayers { get; set; }
         private Dictionary<IPlayer, List<Card>> CardsPlayedByPlayers { get; set; }
+        private IPlayer LastTrickWinner {get;set;}
 
         private int FirstTeamPoints { get; set; }
         private int SecondTeamPoints { get; set; }
@@ -80,30 +81,34 @@ namespace Coinche.Common.Domains.Games
             return CardsHeldByPlayers[player];
         }
 
-        public void StartPlaying()
+        public void Play()
         {
+            Trump = SuitHelper.GetSuit("Heart");
             var trick = new Trick(Players, Trump);
             for (int i = 0; i < BelotteRules.TrickNumber; i++)
             {
                 trick.Play(CardsHeldByPlayers, CardsPlayedByPlayers);
 
                 var newPlayersOrder = RoundHelper.OrderPlayersForNewTrick(Players, trick.GetTaker());
+                LastTrickWinner = trick.GetTaker();
                 trick = new Trick(newPlayersOrder, Trump);
             }
-            AddPlayersPoints();
         }
 
-        public void AddPlayersPoints()
+        public void CountPlayersPoints()
         {
             var firstTeam = true;
             foreach (var player in Players)
             {
                 var playedCards = CardsPlayedByPlayers[player];
                 var playerPoints = BelotteRules.ComputePoints(Trump, playedCards);
+                if (player.Equals(LastTrickWinner)) playerPoints += 10;
+
                 if (firstTeam)
                 {
                     firstTeam = false;
                     FirstTeamPoints += playerPoints;
+
                 }
                 else
                 {

@@ -35,16 +35,17 @@ namespace Coinche.Common.Test.Domains.Games
             var round = new Round(players, 1);
 
             round.ShuffleAndDeal();
-            round.StartPlaying();
+            round.Play();
             foreach (var player in players)
             {
                 var playerCards = round.GetPlayerCards(player);
                 Assert.AreEqual(0, playerCards.Count);
             }
 
+            round.CountPlayersPoints();
             var firstTeamPoints = round.GetFirstTeamPoints();
             var secondTeamPoints = round.GetSecondTeamPoints();
-            Assert.AreNotEqual(0, firstTeamPoints + secondTeamPoints);
+            Assert.AreEqual(162, firstTeamPoints + secondTeamPoints);
         }
 
         [Test]

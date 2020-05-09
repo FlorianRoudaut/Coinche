@@ -21,17 +21,20 @@ namespace Coinche.Common.Domains.Games
             PlayedCards = new Dictionary<IPlayer, Card>();
         }
 
-        public void Play(Dictionary<IPlayer, List<Card>> cardsByPlayers)
+        public void Play(Dictionary<IPlayer, List<Card>> cardsHeldByPlayers,
+            Dictionary<IPlayer, List<Card>> cardsPlayedByPlayers)
         {
-            if (!cardsByPlayers.Any()) return;
+            if (!cardsHeldByPlayers.Any()) return;
 
             PlayedCards = new Dictionary<IPlayer, Card>();
             foreach(var player in PlayersOrdered)
             {
-                var playerCards = cardsByPlayers[player];
+                var playerCards = cardsHeldByPlayers[player];
                 var playedCard = player.Play(playerCards);
                 PlayedCards[player] = playedCard;
-                cardsByPlayers[player].Remove(playedCard);
+                cardsHeldByPlayers[player].Remove(playedCard);
+                if(cardsPlayedByPlayers.ContainsKey(player))
+                    cardsPlayedByPlayers[player].Add(playedCard);
             }
             Taker = BelotteRules.ComputeTaker(Trump, PlayedCards);
         }

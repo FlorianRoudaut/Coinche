@@ -41,39 +41,6 @@ namespace Coinche.Common.Domains.Games
             return Id.GetHashCode();
         }
 
-        public static List<CardSuit> BuildAllSuits()
-        {
-            var list = new List<CardSuit>();
-            var spade = new CardSuit(1, Spade, "♠");
-            list.Add(spade);
-            var heart = new CardSuit(2, Heart, "♥");
-            list.Add(heart);
-            var diamond = new CardSuit(3, Diamond, "♦");
-            list.Add(diamond);
-            var club = new CardSuit(4, Club, "♣");
-            list.Add(club);
-            return list;
-        }
 
-        public static CardSuit GetSuit(string name)
-        {
-            if(name==Spade)
-            {
-                return new CardSuit(1, Spade, "♠");
-            }
-            else if (name== Heart)
-            {
-                return new CardSuit(2, Heart, "♥");
-            }
-            else if (name == Diamond)
-            {
-                return new CardSuit(3, Diamond, "♦");
-            }
-            else if (name == Club)
-            {
-                return new CardSuit(4, Club, "♣");
-            }
-            return null;
-        }
     }
 }

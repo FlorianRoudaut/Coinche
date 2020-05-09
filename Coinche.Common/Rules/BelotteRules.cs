@@ -96,5 +96,43 @@ namespace Coinche.Common.Rules
             if (rankId == 11) return 15;
             return 0;
         }
+
+        public static int ComputePoints(CardSuit trump, List<Card> playedCards)
+        {
+            var sum = 0;
+            if (!playedCards.Any()) return sum;
+
+            foreach(var card in playedCards)
+            {
+                sum += ComputeCardValue(trump, card);
+            }
+            return sum;
+        }
+
+        public static int ComputeCardValue(CardSuit trump, Card card)
+        {
+            var rankId = card.GetRankId();
+            if(card.IsSameSuit(trump))
+            {
+                if (rankId == 7 || rankId == 8) return 0;
+                if (rankId == 9) return 14;
+                if (rankId == 10) return 10;
+                if (rankId == 11) return 20;
+                if (rankId == 12) return 3;
+                if (rankId == 13) return 4;
+                if (rankId == 12) return 11;
+            }
+            else
+            {
+                if (rankId == 7 || rankId == 8|| rankId == 9) return 0;
+                if (rankId == 10) return 10;
+                if (rankId == 11) return 2;
+                if (rankId == 12) return 3;
+                if (rankId == 13) return 4;
+                if (rankId == 12) return 11;
+            }
+            return 0;
+        }
+
     }
 }

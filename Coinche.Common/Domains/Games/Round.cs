@@ -1,4 +1,5 @@
-﻿using Coinche.Common.Rules;
+﻿using Coinche.Common.Helpers.Games;
+using Coinche.Common.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,15 @@ namespace Coinche.Common.Domains.Games
         private List<IPlayer> Players { get; set; }
         private CardSuit Trump { get; set; }
         private Dictionary<IPlayer, List<Card>> CardsHeldByPlayers { get; set; }
+        private Dictionary<IPlayer, List<Card>> CardsPlayedByPlayers { get; set; }
+
+        private int FirstTeamPoints { get; set; }
+        private int SecondTeamPoints { get; set; }
 
         public Round()
         {
             CardsHeldByPlayers = new Dictionary<IPlayer, List<Card>>();
+            CardsPlayedByPlayers = new Dictionary<IPlayer, List<Card>>();
         }
 
 
@@ -23,6 +29,7 @@ namespace Coinche.Common.Domains.Games
         {
             Players = players;
             CardsHeldByPlayers = new Dictionary<IPlayer, List<Card>>();
+            CardsPlayedByPlayers = new Dictionary<IPlayer, List<Card>>();
             RoundNumber = roundNumber;
         }
 
@@ -31,16 +38,27 @@ namespace Coinche.Common.Domains.Games
             return RoundNumber;
         }
 
+        public int GetFirstTeamPoints()
+        {
+            return FirstTeamPoints;
+        }
+
+        public int GetSecondTeamPoints()
+        {
+            return SecondTeamPoints;
+        }
+
         public void ShuffleAndDeal()
         {
-            var pack = Pack.BuildPiquetPack();
-            var shuffledPack = Pack.Shuffle(pack);
+            var pack = PackHelper.BuildPiquetPack();
+            var shuffledPack = PackHelper.Shuffle(pack);
             foreach (var player in Players)
             {
                 CardsHeldByPlayers[player] = new List<Card>();
                 CardsHeldByPlayers[player].Add(shuffledPack.Pop());
                 CardsHeldByPlayers[player].Add(shuffledPack.Pop());
                 CardsHeldByPlayers[player].Add(shuffledPack.Pop());
+                CardsPlayedByPlayers[player] = new List<Card>();
             }
 
             foreach (var player in Players)
@@ -67,43 +85,33 @@ namespace Coinche.Common.Domains.Games
             var trick = new Trick(Players, Trump);
             for (int i = 0; i < BelotteRules.TrickNumber; i++)
             {
-                trick.Play(CardsHeldByPlayers);
+                trick.Play(CardsHeldByPlayers, CardsPlayedByPlayers);
 
-                var newPlayersOrder = OrderPlayersForNewTrick(Players, trick.GetTaker());
+                var newPlayersOrder = RoundHelper.OrderPlayersForNewTrick(Players, trick.GetTaker());
                 trick = new Trick(newPlayersOrder, Trump);
             }
+            AddPlayersPoints();
         }
 
-        public static List<IPlayer> OrderPlayersForNewTrick(List<IPlayer> players, IPlayer taker)
+        public void AddPlayersPoints()
         {
-            var copy = players.Select(t => t).ToList();
-            var newOrder = new List<IPlayer>();
-
-            var found = false;
-            foreach (var player in players)
+            var firstTeam = true;
+            foreach (var player in Players)
             {
-                if (found)
+                var playedCards = CardsPlayedByPlayers[player];
+                var playerPoints = BelotteRules.ComputePoints(Trump, playedCards);
+                if (firstTeam)
                 {
-                    newOrder.Add(player);
-                    copy.Remove(player);
+                    firstTeam = false;
+                    FirstTeamPoints += playerPoints;
                 }
                 else
                 {
-                    if (player.Equals(taker))
-                    {
-                        found = true;
-                        newOrder.Add(player);
-                        copy.Remove(player);
-                    }
-                    else continue;
+                    firstTeam = true;
+                    SecondTeamPoints += playerPoints;
                 }
             }
-
-            foreach (var player in copy)
-            {
-                newOrder.Add(player);
-            }
-            return newOrder;
         }
+
     }
 }

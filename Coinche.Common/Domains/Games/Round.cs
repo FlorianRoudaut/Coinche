@@ -118,5 +118,35 @@ namespace Coinche.Common.Domains.Games
             }
         }
 
+        public Bid Auction()
+        {
+            var agreedPlayer = new List<IPlayer>();
+            var allBids = new List<Bid>();
+
+            int playersIndex = 0;
+            while(agreedPlayer.Count!=Players.Count)
+            {
+                var player = Players[playersIndex];
+                playersIndex++;
+                if (playersIndex == Players.Count) playersIndex = 0;
+                var cards = CardsHeldByPlayers[player];
+                var playerBid = player.MakeBid(cards, allBids);
+                if (playerBid.IsPass())
+                {
+                    agreedPlayer.Add(player);
+                }
+                else
+                {
+                    allBids.Add(playerBid);
+                    agreedPlayer.Clear();
+                }
+            }
+
+            if (allBids.Any())
+                return allBids.Last();
+            else
+                return null;
+        }
+
     }
 }

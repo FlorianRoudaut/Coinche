@@ -11,3 +11,5 @@
 /Coinche.Common.Test/obj
 /Coinche.Common/bin/Debug/netcoreapp3.1
 /Coinche.Common/obj
+/Coinche.ConsoleClient/bin/Debug/netcoreapp3.1
+/Coinche.ConsoleClient/obj

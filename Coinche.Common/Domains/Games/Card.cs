@@ -57,5 +57,10 @@ namespace Coinche.Common.Domains.Games
         {
             return Rank.Id;
         }
+
+        public CardSuit GetSuit()
+        {
+            return Suit;
+        }
     }
 }

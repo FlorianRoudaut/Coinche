@@ -6,6 +6,7 @@ namespace Coinche.Common.Domains.Games
 {
     public class Bid
     {
+        private bool Pass { get; set; }
         private int Target { get; set; }
         private CardSuit Suit { get; set; }
 
@@ -15,6 +16,11 @@ namespace Coinche.Common.Domains.Games
         {
             Target = target;
             Suit = suit;
+        }
+
+        public Bid(bool pass)
+        {
+            Pass = pass;
         }
 
         override public string ToString()
@@ -33,6 +39,16 @@ namespace Coinche.Common.Domains.Games
         public override int GetHashCode()
         {
             return Target.GetHashCode() ^ Suit.GetHashCode();
+        }
+
+        public bool IsPass()
+        {
+            return Pass;
+        }
+
+        public int GetTarget()
+        {
+            return Target;
         }
     }
 }

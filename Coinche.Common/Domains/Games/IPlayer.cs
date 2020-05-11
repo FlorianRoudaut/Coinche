@@ -9,5 +9,7 @@ namespace Coinche.Common.Domains.Games
         int PlayerNumber { get; set; }
         string Name { get; set; }
         Card Play(List<Card> cards);
+
+        Bid MakeBid(List<Card> cards, List<Bid> previousBids);
     }
 }
